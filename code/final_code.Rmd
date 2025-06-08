@@ -1,9 +1,63 @@
-Sanjana Sujeet
-ENVS 154 Final
+---
+title: "ENVS 154 Final"
+author: "Sanjana Sujeet"
+date: "2025-06-08"
+format:
+  html:
+    toc: true
+    toc_float: true
+---
 
+**GitHub Repository:** [https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final](https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final)
 
-```{r}
+```{r setup, message=FALSE}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+
 
 ```
 
-**GitHub Repository:** [https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final](https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final)
+## Problem 1. Research writing
+### a. Transparent Statistical Methods
+
+### b. More information needed
+
+### c. Suggestions for rewriting
+
+
+## Problem 2. Data visualization
+### a. Cleaning and summarising
+
+### b. Visualize
+
+
+## Problem 3. Data Analysis
+### a. Response variable
+
+### b. Purpose of study
+
+### c. Difference in seasons
+
+### d. Table of models
+
+### e. Run models
+
+### f. Check diagnostics
+
+### g. Select best model
+
+### h. Visualize model predictions
+
+### i. write caption for figure
+
+### j. calculate model predictions
+
+### k. interpret results
+
+
+## Problem 4. Affective and Exploratory visualizations
+### a. comparing visualizations
+
+### b. Sharing affective visualization
+Done! 
