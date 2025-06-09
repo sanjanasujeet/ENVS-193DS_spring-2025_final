@@ -15,7 +15,9 @@ Kui, L. 2024. Daily sea surface temperature in Santa Barbara channel between 198
 Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb
 
 ```{r setup, message=FALSE}
-knitr::opts_knit$set(root.dir = "/Desktop/ENVS-193DS/ENVS-193DS_spring-2025_final")
+library(rprojroot)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 
 library(tidyverse)
 library(janitor)
@@ -26,9 +28,9 @@ library(magick)
 library(tibble)
 library(lubridate)
 
-sst<- read.csv('data/sbcl_sst.csv')
+sst<- read.csv(here("data", "SST_update2023.csv"))
 
-nest_boxes<- read.csv('data/occdist.csv')
+nest_boxes<- read.csv(here("data", "SST_update2023.csv"))
 
 ```
 
@@ -127,7 +129,8 @@ Data was collected during the summer breeding season of 2016 when the boxes were
 
 ## Problem 4. Affective and Exploratory visualizations
 ### a. comparing visualizations
-
+The initial visualizations from Homework 2 are pretty different from the affective visualizations from Homework 3 mainly because the initial visuals were exploratory and mainly focused on communicating my data in the simplest, most straightforward way forward. In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format. 
+There are some similarities in colors and
 
 ### b. Sharing affective visualization
 Done! 

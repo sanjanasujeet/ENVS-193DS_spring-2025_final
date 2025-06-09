@@ -148,42 +148,147 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><strong>GitHub Repository:</strong> <a href="https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final">https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final</a></p>
+<p>Citations for data: Kui, L. 2024. Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver 3. Environmental Data Initiative. https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84. Accessed 2025-06-08. Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rprojroot)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_knit<span class="sc">$</span><span class="fu">set</span>(<span class="at">root.dir =</span> rprojroot<span class="sc">::</span><span class="fu">find_rstudio_root_file</span>())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>sst<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"SST_update2023.csv"</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>nest_boxes<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"SST_update2023.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="problem-1.-research-writing" class="level2">
 <h2 class="anchored" data-anchor-id="problem-1.-research-writing">Problem 1. Research writing</h2>
 <section id="a.-transparent-statistical-methods" class="level3">
 <h3 class="anchored" data-anchor-id="a.-transparent-statistical-methods">a. Transparent Statistical Methods</h3>
+<p>In the first part, they used a correlation test to see if there is a linear relationship between teh distance in km from headwater and the annual total nitrogen load in kg per year. This could have been Pearson’s correlation since its two continuous variables or Spearman’s if its not normally distributed and nonlinear. In part 2, they used an ANOVA test to see whether the average nitrogen load measured in kg per year is different between sources(urban land, atmospheric dep, fertilizer, wastewater treatment, grasslands). This test was probably picked since there are multiple sources/groups and a one-way ANOVA tests if one group’s mean differs significantly from others</p>
 </section>
 <section id="b.-more-information-needed" class="level3">
 <h3 class="anchored" data-anchor-id="b.-more-information-needed">b. More information needed</h3>
+<p>To improve the ANOVA interpretation, a Post-hoc test should be invluded because while ANOVA tells you that atleast one group mean is different, it doesn’t tell you how many groups or which groups are significantly different. A test like Tukey’s HSD would clarify which nitrogen sources, like fertilizer or wastewater, differ significantly in nitrogen loads. Another important thing to include would be summary statistics, like mean standard error and range, for each group, this would convey important information in the direction and magnitude of differences as well as how spread out the data is.</p>
 </section>
 <section id="c.-suggestions-for-rewriting" class="level3">
 <h3 class="anchored" data-anchor-id="c.-suggestions-for-rewriting">c.&nbsp;Suggestions for rewriting</h3>
+<p>Sites farther from the river headwaters were associated with higher total annual nitrogen loads. We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson’s correlation test, r = correlation coefficient, p = 0.03, a = 0.05).</p>
+<p>Nitrogen load varied significantly across different source types; some sources contributed more nitrogen than others. We rejected the null hypothesis that there is no difference in average nitrogen load (kg year-1) between sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands) (one-way ANOVA, F=test statistic, df= degrees of freedom, p = 0.02, a = 0.05). A follow up post-hoc Tukey’s HSD test determined that _ sources( mean difference = _ kg/yr, p = _ ) had significantly higher nitrogen loads than _ sources(mean difference = _ kg/yr, p= _ ). No significant differences were found between the other sources, these results suggest that _ is a key driver of elevated nitrogen levels in the system.</p>
 </section>
 </section>
 <section id="problem-2.-data-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="problem-2.-data-visualization">Problem 2. Data visualization</h2>
 <section id="a.-cleaning-and-summarising" class="level3">
 <h3 class="anchored" data-anchor-id="a.-cleaning-and-summarising">a. Cleaning and summarising</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sst_clean <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(sst) <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date), </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(date), </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">month=</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span>  <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sst_clean <span class="ot">&lt;-</span> sst_clean <span class="sc">|&gt;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_monthly_sst=</span> <span class="fu">round</span>(<span class="fu">mean</span>(temp), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sst_clean<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sst_clean<span class="sc">$</span>year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(sst_clean) <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   year [6]
+  year  month mean_monthly_sst
+  &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
+1 2018  Jul               18.2
+2 2019  Jun               15.8
+3 2020  Jan               14.6
+4 2021  Aug               17.7
+5 2022  Nov               15  
+# ℹ 1 more row</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>gropd_df [72 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
+ $ year            : Factor w/ 6 levels "2018","2019",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ month           : Ord.factor w/ 12 levels "Jan"&lt;"Feb"&lt;"Mar"&lt;..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ mean_monthly_sst: num [1:72] 15 14.3 13.5 12.8 13.6 15.5 18.2 19.6 18.2 18.5 ...
+ - attr(*, "groups")= tibble [6 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ year : Factor w/ 6 levels "2018","2019",..: 1 2 3 4 5 6
+  ..$ .rows: list&lt;int&gt; [1:6] 
+  .. ..$ : int [1:12] 1 2 3 4 5 6 7 8 9 10 ...
+  .. ..$ : int [1:12] 13 14 15 16 17 18 19 20 21 22 ...
+  .. ..$ : int [1:12] 25 26 27 28 29 30 31 32 33 34 ...
+  .. ..$ : int [1:12] 37 38 39 40 41 42 43 44 45 46 ...
+  .. ..$ : int [1:12] 49 50 51 52 53 54 55 56 57 58 ...
+  .. ..$ : int [1:12] 61 62 63 64 65 66 67 68 69 70 ...
+  .. ..@ ptype: int(0) 
+  ..- attr(*, ".drop")= logi TRUE</code></pre>
+</div>
+</div>
 </section>
 <section id="b.-visualize" class="level3">
 <h3 class="anchored" data-anchor-id="b.-visualize">b. Visualize</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sst_clean, <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span> mean_monthly_sst, <span class="at">group =</span> year, <span class="at">color =</span> year))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"darkblue"</span>))(<span class="dv">6</span>),   <span class="co"># blue gradient (light to dark)</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Year"</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border=</span><span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">"grey60"</span>, <span class="at">fill=</span><span class="cn">NA</span>, <span class="at">size =</span> <span class="fl">1.25</span>),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey60"</span>),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"grey40"</span>),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Month"</span>, <span class="at">y=</span> <span class="st">"Mean monthly sea surface temperature (°C)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
+3.5.0.
+ℹ Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_code_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="problem-3.-data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="problem-3.-data-analysis">Problem 3. Data Analysis</h2>
 <section id="a.-response-variable" class="level3">
 <h3 class="anchored" data-anchor-id="a.-response-variable">a. Response variable</h3>
+<p>The Binary responses 0s and 1s in this data set refer to if the nest box is occupied and the column name specifies which species is present. Column sp refers to Swift parrot and cs refers to Common starling and if there is a 1 in a row below it, it means that that specific species was present in the box; 0 means that the box is empty or occupied with another species. Tm refers to tree martin and 1 means a tree martin is occupying the box and a 0 means it is empty; column e refers to if the box is empty(1) or occupied(0).</p>
 </section>
 <section id="b.-purpose-of-study" class="level3">
 <h3 class="anchored" data-anchor-id="b.-purpose-of-study">b. Purpose of study</h3>
+<p>Out of the three species, Swift Parrots were the intended occupants of the nest boxes, Common starling and Tree martins are the nontarget species occupants.</p>
 </section>
 <section id="c.-difference-in-seasons" class="level3">
 <h3 class="anchored" data-anchor-id="c.-difference-in-seasons">c.&nbsp;Difference in seasons</h3>
+<p>Data was collected during the summer breeding season of 2016 when the boxes were put up and in the summer breeding season of 2019 when they had been in place for a few years. They differ because the study was looking at how occupant composition changed over time.</p>
 </section>
 <section id="d.-table-of-models" class="level3">
 <h3 class="anchored" data-anchor-id="d.-table-of-models">d.&nbsp;Table of models</h3>
@@ -214,6 +319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="problem-4.-affective-and-exploratory-visualizations">Problem 4. Affective and Exploratory visualizations</h2>
 <section id="a.-comparing-visualizations" class="level3">
 <h3 class="anchored" data-anchor-id="a.-comparing-visualizations">a. comparing visualizations</h3>
+<p>The initial visualizations from Homework 2 are pretty different from the affective visualizations from Homework 3 mainly because the initial visuals were exploratory and mainly focused on communicating my data in the simplest, most straightforward way forward. In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format. There are some similarities in colors and</p>
 </section>
 <section id="b.-sharing-affective-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="b.-sharing-affective-visualization">b. Sharing affective visualization</h3>
