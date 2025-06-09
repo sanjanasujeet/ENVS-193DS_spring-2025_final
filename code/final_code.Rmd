@@ -10,34 +10,103 @@ format:
 
 **GitHub Repository:** [https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final](https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final)
 
+Citations for data: 
+Kui, L. 2024. Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver 3. Environmental Data Initiative. https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84. Accessed 2025-06-08.
+Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb
+
 ```{r setup, message=FALSE}
+knitr::opts_knit$set(root.dir = "/Desktop/ENVS-193DS/ENVS-193DS_spring-2025_final")
+
 library(tidyverse)
 library(janitor)
 library(dplyr)
+library(here)
+library(gt)
+library(magick)
+library(tibble)
+library(lubridate)
 
+sst<- read.csv('data/sbcl_sst.csv')
+
+nest_boxes<- read.csv('data/occdist.csv')
 
 ```
 
 ## Problem 1. Research writing
 ### a. Transparent Statistical Methods
+In the first part, they used a correlation test to see if there is a linear relationship between teh distance in km from headwater and the annual total nitrogen load in kg per year. This could have been Pearson's correlation since its two continuous variables or Spearman's if its not normally distributed and nonlinear. 
+In part 2, they used an ANOVA test to see whether the average nitrogen load measured in kg per year is different between sources(urban land, atmospheric dep, fertilizer, wastewater treatment, grasslands). This test was probably picked since there are multiple sources/groups and a one-way ANOVA tests if one group's mean differs significantly from others
 
 ### b. More information needed
+To improve the ANOVA interpretation, a Post-hoc test should be invluded because while ANOVA tells you that atleast one group mean is different, it doesn't tell you how many groups or which groups are significantly different. A test like Tukey's HSD would clarify which nitrogen sources, like fertilizer or wastewater, differ significantly in nitrogen loads. 
+Another important thing to include would be summary statistics, like mean standard error and range, for each group, this would convey important information in the direction and magnitude of differences as well as how spread out the data is. 
 
 ### c. Suggestions for rewriting
+
+Sites farther from the river headwaters were associated with higher total annual nitrogen loads. We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson's correlation test, r = correlation coefficient, p = 0.03, a = 0.05).
+
+Nitrogen load varied significantly across different source types; some sources contributed more nitrogen than others.
+We rejected the null hypothesis that there is no difference in average nitrogen load (kg year-1) between sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands) (one-way ANOVA, F=test statistic, df= degrees of freedom, p = 0.02, a = 0.05). A follow up post-hoc Tukey's HSD test determined that _ sources( mean difference = _ kg/yr, p = _ ) had significantly higher nitrogen loads than _ sources(mean difference = _ kg/yr, p= _ ). No significant differences were found between the other sources, these results suggest that _ is a key driver of elevated nitrogen levels in the system. 
 
 
 ## Problem 2. Data visualization
 ### a. Cleaning and summarising
+```{r}
+sst_clean <- clean_names(sst) |> 
+  mutate(date = ymd(date), 
+         year = year(date), 
+         month= month(date, label = TRUE)) |> 
+  filter(year %in%  c("2018", "2019", "2020", "2021", "2022", "2023"))
+
+sst_clean <- sst_clean |> 
+  group_by(year, month) |> 
+  summarise(mean_monthly_sst= round(mean(temp), 1))
+
+sst_clean$year <- factor(sst_clean$year, levels = c("2018", "2019", "2020", "2021", "2022", "2023"))
+
+
+slice_sample(sst_clean) |> 
+  print(n=5)
+
+str(sst_clean)
+
+```
 
 ### b. Visualize
+```{r}
+ggplot(sst_clean, aes(x=month, y= mean_monthly_sst, group = year, color = year))+
+  geom_line()+
+  geom_point()+
+  scale_color_manual(
+    values = colorRampPalette(c("lightblue", "darkblue"))(6),   # blue gradient (light to dark)
+    name = "Year"
+  ) +
+  scale_y_continuous(limits = c(12,20))+
+  theme_minimal()+
+  theme(
+    panel.grid=element_blank(),
+    panel.border=element_rect(color = "grey60", fill=NA, size = 1.25),
+    axis.ticks = element_line(color = "grey60"),
+    axis.text = element_text(color = "grey40"),
+    legend.position = c(0.15, 0.75))+
+  labs(x = "Month", y= "Mean monthly sea surface temperature (°C)")
+```
 
 
 ## Problem 3. Data Analysis
+```{r message=FALSE, echo=FALSE, eval= FALSE}
+#cleaning data
+nest_boxes<- clean_names(nest_boxes)
+```
+
 ### a. Response variable
+The Binary responses 0s and 1s in this data set refer to if the nest box is occupied and the column name specifies which species is present. Column sp refers to Swift parrot and cs refers to Common starling and if there is a 1 in a row below it, it means that that specific species was present in the box; 0 means that the box is empty or occupied with another species. Tm refers to tree martin and 1 means a tree martin is occupying the box and a 0 means it is empty; column e refers to if the box is empty(1) or occupied(0).
 
 ### b. Purpose of study
+Out of the three species, Swift Parrots were the intended occupants of the nest boxes, Common starling and Tree martins are the nontarget species occupants.
 
 ### c. Difference in seasons
+Data was collected during the summer breeding season of 2016 when the boxes were put up and in the summer breeding season of 2019 when they had been in place for a few years. They differ because the study was looking at how occupant composition changed over time.
 
 ### d. Table of models
 
@@ -58,6 +127,7 @@ library(dplyr)
 
 ## Problem 4. Affective and Exploratory visualizations
 ### a. comparing visualizations
+
 
 ### b. Sharing affective visualization
 Done! 
