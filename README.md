@@ -4,8 +4,6 @@ Final Exam for ENVS154, Spring 2025 Sanjana Sujeet
 
 # Rendered output
 
-Rendered HTML: <https://sanjanasujeet.github.io/ENVS-193DS_spring-2025_final/code/final_code>
-
 You can find my rendered final at this [link](https://sanjanasujeet.github.io/ENVS-193DS_spring-2025_final/code/final_code)
 
 
@@ -16,7 +14,6 @@ Repository is for my ENVS 193DS Final taken in Spring Quarter 2025 at UCSB with 
 Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird Dataset. Dryad. [https://doi.org/10.5061/dryad.83bk3j9sb\\](https://doi.org/10.5061/dryad.83bk3j9sb\){.uri} Accessed 2025-06-08.
 
 The packages used are: 
-
 ```
 library(tidyverse)
 library(janitor)
@@ -29,7 +26,6 @@ library(DHARMa)
 library(ggplot2)
 library(ggeffects)
 ```
-
 
 # Data and File Structure
 ```
