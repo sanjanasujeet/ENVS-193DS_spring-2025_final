@@ -19,6 +19,7 @@ Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver
 Environmental Data Initiative.
 https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84.
 Accessed 2025-06-08.
+
 Stojanovic, Dejan et al. (2021).
 Do nest boxes breed the target species or its competitors?
 A case study of a critically endangered bird \[Dataset\].
@@ -27,7 +28,7 @@ https://doi.org/10.5061/dryad.83bk3j9sb
 
 ```{r setup, message=FALSE}
 library(rprojroot)
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) # resets root for pulling in data
 
 
 library(tidyverse)
@@ -42,10 +43,12 @@ library(lubridate)
 library(MuMIn)
 #install.packages("DHARMa")
 library(DHARMa)
+library(ggplot2)
+library(ggeffects)
 
-sst<- read.csv(here("data", "SST_update2023.csv"))
+sst<- read.csv(here("data", "SST_update2023.csv")) #reads in sea temp data
 
-nest_boxes<- read.csv(here("data", "occdist.csv"))
+nest_boxes<- read.csv(here("data", "occdist.csv")) #reads in bird data
 
 ```
 
@@ -62,8 +65,9 @@ This test was probably picked since there are multiple sources/groups and a one-
 
 To improve the ANOVA interpretation, a Post-hoc test should be invluded because while ANOVA tells you that atleast one group mean is different, it doesn't tell you how many groups or which groups are significantly different.
 A test like Tukey's HSD would clarify which nitrogen sources, like fertilizer or wastewater, differ significantly in nitrogen loads.
-Another important thing to include would be summary statistics, like mean standard error and range, for each group, this would convey important information in the direction and magnitude of differences as well as how spread out the data is. \*\* Effect size \### c.
-Suggestions for rewriting
+Another important thing to include would be summary statistics, like mean standard error and range, for each group, this would convey important information in the direction and magnitude of differences as well as how spread out the data is. Add Effect size ?????
+
+### c. Suggestions for rewriting
 
 Sites farther from the river headwaters were associated with higher total annual nitrogen loads.
 We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson's correlation test, r = correlation coefficient, p = 0.03, a = 0.05).
@@ -76,7 +80,7 @@ A follow up post-hoc Tukey's HSD test determined that \_ source( mean difference
 
 ### a. Cleaning and summarising
 
-```{r}
+```{r, message = FALSE}
 sst_clean <- clean_names(sst) |> 
   mutate(date = ymd(date), 
          year = year(date), 
@@ -99,30 +103,30 @@ str(sst_clean)
 
 ### b. Visualize
 
-```{r}
-ggplot(sst_clean, aes(x=month, y= mean_monthly_sst, group = year, color = year))+
-  geom_line()+
-  geom_point()+
+```{r, warning = FALSE}
+ggplot(sst_clean, aes(x=month, y= mean_monthly_sst, group = year, color = year))+ #takes sst data, sets axis, and groups and colors by the year
+  geom_line()+#adds line to connect data
+  geom_point()+ #adds datapoints
   scale_color_manual(
-    values = colorRampPalette(c("lightblue", "darkblue"))(6),   # blue gradient (light to dark)
+    values = colorRampPalette(c("lightblue", "darkblue"))(6),   # manually adds a scale of 6 blue colors
     name = "Year"
-  ) +
-  scale_y_continuous(limits = c(12,20))+
+  ) +#name of legend
+  scale_y_continuous(limits = c(12,20))+ # adds 20 to top of graph because it wasnt there before
   theme_minimal()+
   theme(
-    panel.grid=element_blank(),
-    panel.border=element_rect(color = "grey60", fill=NA, size = 1.25),
-    axis.ticks = element_line(color = "grey60"),
-    axis.text = element_text(color = "grey40"),
-    legend.position = c(0.15, 0.75))+
-  labs(x = "Month", y= "Mean monthly sea surface temperature (°C)")
+    panel.grid=element_blank(),#remove gridlines
+    panel.border=element_rect(color = "grey60", fill=NA, size = 1.25), #adds a border around the graph in grey
+    axis.ticks = element_line(color = "grey60"),#adds axis ticks in grey
+    axis.text = element_text(color = "grey40"),#writes the axis elements in grey
+    legend.position = c(0.15, 0.75))+#moves legend inside the graph
+  labs(x = "Month", y= "Mean monthly sea surface temperature (°C)")#labels title and axis
 ```
 
 ## Problem 3. Data Analysis
 
-```{r message=FALSE, echo=FALSE, eval= FALSE}
+```{r include= FALSE}
 #cleaning data
-nest_boxes_clean<- clean_names(nest_boxes)
+nest_boxes_clean<- clean_names(nest_boxes) #tidy names
 ```
 
 ### a. Response variable
@@ -141,35 +145,100 @@ Data was collected during the summer breeding season of 2016 when the boxes were
 They differ because the study was looking at how occupant composition changed over time.
 
 ### d. Table of models
-| Model number | edge dist | season |              |  
-|:------------:|:---:|:---------------:|:-------:|-----------------------------|  | 0            |     |                 |         | no predictors (null model)  |
-| 1            |  X  |       X         |    X    | edge distance | 
-| 2            |  X  |       X         |         | season     | | 3            |  X  |                 |    X    | all predictors (full model)             |    
- 
+
+4 models total:
+
+| Model number | edge_distance | season |     description             |
+|:------------:|:-------------:|:------:|-----------------------------|  
+| 0            |               |        | no predictors (null model)  |
+| 1            |      X        |        | edge distance as predictor  |
+| 2            |               |    X   |   season as predictor       |   
+| 3            |      X        |    X   | all predictors (full model) | 
 
 ### e. Run models
+```{r, results = "hide"}
+Model0<- glm(sp ~ 1, data = nest_boxes_clean, family = binomial()) #no predictors
+Model1<- glm(sp ~ edge_distance, data = nest_boxes_clean) #edge dist
+Model2<- glm(sp ~ season, data = nest_boxes_clean) # season
+Model3<- glm(sp ~ edge_distance+season, data = nest_boxes_clean) #both predictors
+```
 
 ### f. Check diagnostics
+#### Model 0, null model
+```{r}
+sim0 <- simulateResiduals(Model0) #dharma package residual graphs 
+par(mfrow = c(1, 2)) # 1 row 2 columns
+plot(sim0)
+```
+#### Model 1, edge distance as predictor
+```{r}
+sim1 <- simulateResiduals(Model1)#dharma package residual graphs
+par(mfrow = c(1, 2)) # 1 row 2 columns
+plot(sim1)
+```
+#### Model 2, season as predictor
+```{r}
+sim2 <- simulateResiduals(Model2)#dharma package residual graphs
+par(mfrow = c(1, 2)) # 1 row 2 columns
+plot(sim2)
+```
+#### Model 3, both edge distance and season as predictor
+```{r}
+sim3 <- simulateResiduals(Model3)#dharma package residual graphs
+par(mfrow = c(1, 2)) # 1 row 2 columns
+plot(sim3)
+```
 
 ### g. Select best model
 
 ```{r, message = FALSE}
-
-Model0<- lm(sp ~ 1, data = nest_boxes_clean, family = binomial()) #no predictors
-Model1<- lm(sp ~ edge_distance, data = nest_boxes_clean) #edge dist
-Model2<- lm(sp ~ season, data = nest_boxes_clean) # season
-Model3<- lm(sp ~ edge_distance+season, data = nest_boxes_clean) #both predictors
-
 AICc(Model0, Model1, Model2, Model3) |> 
-  arrange(AICc)
+  arrange(AICc) #Akaike’s Information Criterion(AIC) test, arranges from low to high or best model to worst
+```
+The best model as determined by  Akaike’s Information Criterion(AIC) is Model 3 which had both edge distance and season as predictors, this had the lowest AICc score(232.5) compared to the others(Model0-245.0, Model1-235.9, Model2- 242.5)
+
+### h. Visualize model predictions
+```{r}
+#ggpredict not geomsmooth
+
+prediction <- ggpredict(Model3, terms = c("edge_distance", "season")) #creates prediction based on model 3 and using both the predictor variables
+
+#graphics.off() #fixes graph issue and removes the old plots that were causing the graphics problem
+
+ggplot(prediction, aes(x = x, y = predicted, group = group, color = group, fill = group)) +#takes prediction data, sets axis, and groups and colors by the groups made
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2, color = NA) +#95% conf interval, removes color so i can manually add later
+  geom_line(size = 1.2) +#adds line
+  geom_jitter(data = nest_boxes_clean,
+              aes(x = edge_distance, y = sp, color = factor(season)),
+              width = 20, height = 0.05, alpha = 0.5,
+              inherit.aes = FALSE) +# adds jitter points from the underlying data, jittered by width and height because otherwise it was overlapping
+  labs(title = "Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season",
+    x = "Distance to Forest Edge (meters)",
+    y = "Probability of Swift Parrot Occupancy",
+    color = "Season",
+    fill = "Season"
+  ) +#adds title and axis labels
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank())+ #removes gridlines
+  scale_color_manual(values = c("2016" = "hotpink2", "2019" = "purple")) + # dots and lines colors
+  scale_fill_manual(values = c("2016" = "hotpink2", "2019" = "purple")) # confidence interval colors
 
 ```
 
-### h. Visualize model predictions
-
 ### i. write caption for figure
 
+##### Figure 1.
+**Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season.**
+*This model suggests that as distance to forest edge increases, probability of swift parrot occupancy decreases, also, in 2016 the probability was higher than in 2019.*
+This figure displays model-predicted probabilities of Swift Parrot nest box occupancy derived from a general logistic regression model that includes edge distance and season as predictor variables. Distance to the forest edge is shown on the x axis; season is shown in the legend with color differentiation, pink refering to the summer breeding season in 2016 and purple for the summer breeding season in 2019. Shaded ribbons represent 95% confidence intervals around the predicted probability lines and Jittered points show the raw binary data (1 = box occupied, 0 = unoccupied), with the same colors indicating season. The data came from: Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb
+
 ### j. calculate model predictions
+
+```{r}
+pred <- ggpredict(Model3, terms = c("edge_distance [0,900]", "season"))
+print(pred)
+```
 
 ### k. interpret results
 
