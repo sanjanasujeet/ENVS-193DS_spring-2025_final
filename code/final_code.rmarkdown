@@ -11,7 +11,11 @@ editor:
     wrap: sentence
 ---
 
+
+
 **GitHub Repository:** <https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final>
+
+
 
 
 ```{r setup, message=FALSE}
@@ -39,6 +43,8 @@ sst<- read.csv(here("data", "SST_update2023.csv")) #reads in sea temp data
 nest_boxes<- read.csv(here("data", "occdist.csv")) #reads in bird data
 
 ```
+
+
 
 ## Problem 1. Research writing
 
@@ -68,6 +74,8 @@ A follow up post-hoc Tukey's HSD test determined that source [a] ( mean differen
 
 ### a. Cleaning and summarising
 
+
+
 ```{r, message = FALSE}
 sst_clean <- clean_names(sst) |> #tidy names
   mutate(date = ymd(date), 
@@ -87,7 +95,11 @@ str(sst_clean) # shows setup of df
 ```
 
 
+
+
 ### b. Visualize
+
+
 
 ```{r, warning = FALSE}
 ggplot(sst_clean, aes(x=month, y= mean_monthly_sst, group = year, color = year))+ #takes sst data, sets axis, and groups and colors by the year
@@ -108,12 +120,18 @@ ggplot(sst_clean, aes(x=month, y= mean_monthly_sst, group = year, color = year))
   labs(x = "Month", y= "Mean monthly sea surface temperature (°C)")#labels title and axis
 ```
 
+
+
 ## Problem 3. Data Analysis
+
+
 
 ```{r include= FALSE}
 #cleaning data
 nest_boxes_clean<- clean_names(nest_boxes) #tidy names
 ```
+
+
 
 ### a. Response variable
 
@@ -142,6 +160,8 @@ They differ because the study was looking at how occupant composition changed ov
 | 3            |      X        |    X   | all predictors (full model) | 
 
 ### e. Run models
+
+
 ```{r, results = "hide"}
 Model0<- glm(sp ~ 1, data = nest_boxes_clean, family = binomial()) #no predictors
 Model1<- glm(sp ~ edge_distance, data = nest_boxes_clean) #edge dist
@@ -149,41 +169,65 @@ Model2<- glm(sp ~ season, data = nest_boxes_clean) # season
 Model3<- glm(sp ~ edge_distance+season, data = nest_boxes_clean) #both predictors
 ```
 
+
+
 ### f. Check diagnostics
 #### Model 0, null model
+
+
 ```{r}
 sim0 <- simulateResiduals(Model0) #dharma package residual graphs 
 par(mfrow = c(1, 2)) # 1 row 2 columns
 plot(sim0)
 ```
+
+
 #### Model 1, edge distance as predictor
+
+
 ```{r}
 sim1 <- simulateResiduals(Model1)#dharma package residual graphs
 par(mfrow = c(1, 2)) # 1 row 2 columns
 plot(sim1)
 ```
+
+
 #### Model 2, season as predictor
+
+
 ```{r}
 sim2 <- simulateResiduals(Model2)#dharma package residual graphs
 par(mfrow = c(1, 2)) # 1 row 2 columns
 plot(sim2)
 ```
+
+
 #### Model 3, both edge distance and season as predictor
+
+
 ```{r, message = FALSE}
 sim3 <- simulateResiduals(Model3)#dharma package residual graphs
 par(mfrow = c(1, 2)) # 1 row 2 columns
 plot(sim3)
 ```
 
+
+
 ### g. Select best model
+
+
 
 ```{r, message = FALSE}
 AICc(Model0, Model1, Model2, Model3) |> 
   arrange(AICc) #Akaike’s Information Criterion(AIC) test, arranges from low to high or best model to worst
 ```
+
+
 The best model as determined by  Akaike’s Information Criterion(AIC) is Model 3 which had both edge distance and season as predictors, this had the lowest AICc score(232.5) compared to the others(Model0 - 245.0, Model1 - 235.9, Model2 -  242.5)
 
 ### h. Visualize model predictions
+
+
 ```{r, warning = FALSE}
 
 prediction <- ggpredict(Model3, terms = c("edge_distance", "season")) #creates prediction based on model 3 and using both the predictor variables
@@ -211,6 +255,8 @@ ggplot(prediction, aes(x = x, y = predicted, group = group, color = group, fill 
 
 ```
 
+
+
 ### i. Write caption for figure
 
 ##### Figure 1.
@@ -220,10 +266,14 @@ This figure displays model-predicted probabilities of Swift Parrot nest box occu
 
 ### j. Calculate model predictions
 
+
+
 ```{r}
 predicted_table <- ggpredict(Model3, terms = c("edge_distance [0,900]", "season")) #runs prediction based on model 3
 print(predicted_table)
 ```
+
+
 
 ### k. Interpret results
 Predicted probabilities from the regression model (Figure 1) show that Swift Parrot nest box occupancy is highest near the forest edge (0 m) and declines with increasing distance. At 0 m, the probability of occupancy was estimated at 0.43 in 2016 and 0.30 in 2019, while at 900 m, it dropped to 0.13 and 0.01, for 2016 and 2019 (table in part j). This indicates a negative relationship between distance from forest edge and the probability of Swift Parrot occupancy, with slightly higher probabilities in the earlier 2016 season. This trend could be explained by Swift Parrots' preference for nesting near forest edges making distant nest boxes less favorable.
@@ -241,3 +291,4 @@ In week 9, the only feedback that I got was that my visual would look nicer with
 ### b. Sharing affective visualization
 
 Done!
+

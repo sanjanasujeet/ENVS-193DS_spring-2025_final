@@ -180,12 +180,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="b.-more-information-needed" class="level3">
 <h3 class="anchored" data-anchor-id="b.-more-information-needed">b. More information needed</h3>
-<p>To improve the ANOVA interpretation, a Post-hoc test should be invluded because while ANOVA tells you that atleast one group mean is different, it doesn’t tell you how many groups or which groups are significantly different. A test like Tukey’s HSD would clarify which nitrogen sources, like fertilizer or wastewater, differ significantly in nitrogen loads. Another important thing to include would be summary statistics, like mean standard error and range, for each group, this would convey important information in the direction and magnitude of differences as well as how spread out the data is. Add Effect size ?????</p>
+<p>To improve the ANOVA interpretation, a Post-hoc test should be invluded because while ANOVA tells you that atleast one group mean is different, it doesn’t tell you how many groups or which groups are significantly different. A test like Tukey’s HSD would clarify which nitrogen sources, like fertilizer or wastewater, differ significantly in nitrogen loads. Another important thing to include would be summary statistics, like mean standard error and range, for each group, this would convey important information in the direction and magnitude of differences as well as how spread out the data is.</p>
 </section>
 <section id="c.-suggestions-for-rewriting" class="level3">
 <h3 class="anchored" data-anchor-id="c.-suggestions-for-rewriting">c.&nbsp;Suggestions for rewriting</h3>
 <p>Sites farther from the river headwaters were associated with higher total annual nitrogen loads, suggesting that nitrogen accumulates as water flows downstream. We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson’s correlation test, r = correlation coefficient, p = 0.03, a = 0.05).</p>
-<p>Nitrogen load varied significantly across different source types; sources _ contributed more nitrogen than _ the others which suggests that _ is a key driver of elevated nitrogen levels in the system. We rejected the null hypothesis that there is no difference in average nitrogen load (kg year-1) between sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands) (one-way ANOVA, F=test statistic, df= degrees of freedom, p = 0.02, a = 0.05). A follow up post-hoc Tukey’s HSD test determined that _ source( mean difference = average kg/yr, p = p-value ) had significantly higher nitrogen loads than _ source(mean difference = average kg/yr, p= p-value ); no significant differences were found between the other sources.</p>
+<p>Nitrogen load varied significantly across different source types; source [a] contributed more nitrogen than [b] which suggests that [a] is a key driver of elevated nitrogen levels in the system. We rejected the null hypothesis that there is no difference in average nitrogen load (kg year-1) between sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands) (one-way ANOVA, F=test statistic, df= degrees of freedom, p = 0.02, a = 0.05). A follow up post-hoc Tukey’s HSD test determined that source [a] ( mean difference = average kg/yr, p = p-value ) had significantly higher nitrogen loads than source [b] (mean difference = average kg/yr, p= p-value ); no significant differences were found between the other sources. [I used a and b in place of actual sources like fertilizer etc because this test wasn’t done so results weren’t provided ]</p>
 </section>
 </section>
 <section id="problem-2.-data-visualization" class="level2">
@@ -193,32 +193,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="a.-cleaning-and-summarising" class="level3">
 <h3 class="anchored" data-anchor-id="a.-cleaning-and-summarising">a. Cleaning and summarising</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sst_clean <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(sst) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sst_clean <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(sst) <span class="sc">|&gt;</span> <span class="co">#tidy names</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date), </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(date), </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">month=</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span>  <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_monthly_sst=</span> <span class="fu">round</span>(<span class="fu">mean</span>(temp), <span class="dv">1</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">month=</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> <span class="co">#changes format of data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span>  <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>)) <span class="sc">|&gt;</span> <span class="co">#picks specific years i want</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span> <span class="co"># uses year and month to group data for next step</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_monthly_sst=</span> <span class="fu">round</span>(<span class="fu">mean</span>(temp), <span class="dv">1</span>)) <span class="co">#creates rounded mean column</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sst_clean<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sst_clean<span class="sc">$</span>year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sst_clean<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sst_clean<span class="sc">$</span>year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>)) <span class="co">#makes year a factor for next steps</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(sst_clean) <span class="sc">|&gt;</span> </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(sst_clean) <span class="sc">|&gt;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="dv">5</span>) <span class="co">#shows 5 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
 # Groups:   year [6]
   year  month mean_monthly_sst
   &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
-1 2018  Apr               12.8
-2 2019  Mar               13.6
-3 2020  Oct               19  
-4 2021  Dec               14.4
-5 2022  Dec               14.8
+1 2018  Sep               18.2
+2 2019  Feb               14.1
+3 2020  Sep               18.7
+4 2021  Apr               13.1
+5 2022  Oct               17.9
 # ℹ 1 more row</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_clean) <span class="co"># shows setup of df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>gropd_df [72 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
  $ year            : Factor w/ 6 levels "2018","2019",..: 1 1 1 1 1 1 1 1 1 1 ...
@@ -406,7 +405,7 @@ Model0  1 238.8318
 Model2  3 242.5425</code></pre>
 </div>
 </div>
-<p>The best model as determined by Akaike’s Information Criterion(AIC) is Model 3 which had both edge distance and season as predictors, this had the lowest AICc score(232.5) compared to the others(Model0-245.0, Model1-235.9, Model2- 242.5)</p>
+<p>The best model as determined by Akaike’s Information Criterion(AIC) is Model 3 which had both edge distance and season as predictors, this had the lowest AICc score(232.5) compared to the others(Model0 - 245.0, Model1 - 235.9, Model2 - 242.5)</p>
 </section>
 <section id="h.-visualize-model-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="h.-visualize-model-predictions">h. Visualize model predictions</h3>
@@ -452,7 +451,7 @@ Model2  3 242.5425</code></pre>
 <section id="j.-calculate-model-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. Calculate model predictions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted_table <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>))</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted_table <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>)) <span class="co">#runs prediction based on model 3</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(predicted_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Predicted values of sp
