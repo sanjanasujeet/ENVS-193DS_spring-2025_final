@@ -215,11 +215,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # Groups:   year [6]
   year  month mean_monthly_sst
   &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
-1 2018  May               13.6
-2 2019  Mar               13.6
-3 2020  Nov               15.5
-4 2021  Sep               17.1
-5 2022  May               13.4
+1 2018  Feb               14.3
+2 2019  Aug               17  
+3 2020  Oct               19  
+4 2021  Oct               16.6
+5 2022  Jan               13.9
 # ℹ 1 more row</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -457,10 +457,34 @@ Model2  3 242.5425</code></pre>
 </section>
 <section id="i.-write-caption-for-figure" class="level3">
 <h3 class="anchored" data-anchor-id="i.-write-caption-for-figure">i. write caption for figure</h3>
-<p>#####Figure 1. <strong>Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season.</strong> <em>This model suggests that as distance to forest edge increases, probability of swift parrot occupancy decreases, also, in 2016 the probability was higher than in 2019.</em> This figure displays model-predicted probabilities of Swift Parrot nest box occupancy derived from a general logistic regression model that includes edge distance and season as predictor variables. Distance to the forest edge is shown on the x axis; season is shown in the legend with color differentiation, pink refering to the summer breeding season in 2016 and purple for the summer breeding season in 2019. Shaded ribbons represent 95% confidence intervals around the predicted probability lines and Jittered points show the raw binary data (1 = box occupied, 0 = unoccupied), with the same colors indicating season. The data came from: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
+<section id="figure-1." class="level5">
+<h5 class="anchored" data-anchor-id="figure-1.">Figure 1.</h5>
+<p><strong>Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season.</strong> <em>This model suggests that as distance to forest edge increases, probability of swift parrot occupancy decreases, also, in 2016 the probability was higher than in 2019.</em> This figure displays model-predicted probabilities of Swift Parrot nest box occupancy derived from a general logistic regression model that includes edge distance and season as predictor variables. Distance to the forest edge is shown on the x axis; season is shown in the legend with color differentiation, pink refering to the summer breeding season in 2016 and purple for the summer breeding season in 2019. Shaded ribbons represent 95% confidence intervals around the predicted probability lines and Jittered points show the raw binary data (1 = box occupied, 0 = unoccupied), with the same colors indicating season. The data came from: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
+</section>
 </section>
 <section id="j.-calculate-model-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. calculate model predictions</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Predicted values of sp
+
+season: 2016
+
+edge_distance | Predicted |     95% CI
+--------------------------------------
+            0 |      0.43 | 0.31, 0.54
+          900 |      0.13 | 0.02, 0.25
+
+season: 2019
+
+edge_distance | Predicted |      95% CI
+---------------------------------------
+            0 |      0.30 |  0.20, 0.41
+          900 |      0.01 | -0.10, 0.12</code></pre>
+</div>
+</div>
 </section>
 <section id="k.-interpret-results" class="level3">
 <h3 class="anchored" data-anchor-id="k.-interpret-results">k. interpret results</h3>
