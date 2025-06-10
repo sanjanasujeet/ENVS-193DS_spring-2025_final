@@ -1,6 +1,6 @@
 # ENVS-193DS_spring-2025_final
 
-Final Exam for ENVS154, Spring 2025 Sanjana Sujeet
+Final Exam for ENVS193DS, Spring 2025 Sanjana Sujeet
 
 # Rendered output
 

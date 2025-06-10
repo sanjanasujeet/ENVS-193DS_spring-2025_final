@@ -9,7 +9,7 @@
 <meta name="author" content="Sanjana Sujeet">
 <meta name="dcterms.date" content="2025-06-08">
 
-<title>ENVS 154 Final</title>
+<title>ENVS 193DS Final</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ENVS 154 Final</h1>
+<h1 class="title">ENVS 193DS Final</h1>
 </div>
 
 
@@ -148,8 +148,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><strong>GitHub Repository:</strong> <a href="https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final" class="uri">https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final</a></p>
-<p>Citations for data: Kui, L. 2024. Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver 3. Environmental Data Initiative. https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84. Accessed 2025-06-08.</p>
-<p>Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rprojroot)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_knit<span class="sc">$</span><span class="fu">set</span>(<span class="at">root.dir =</span> rprojroot<span class="sc">::</span><span class="fu">find_rstudio_root_file</span>()) <span class="co"># resets root for pulling in data</span></span>
@@ -186,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="c.-suggestions-for-rewriting" class="level3">
 <h3 class="anchored" data-anchor-id="c.-suggestions-for-rewriting">c.&nbsp;Suggestions for rewriting</h3>
-<p>Sites farther from the river headwaters were associated with higher total annual nitrogen loads. We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson’s correlation test, r = correlation coefficient, p = 0.03, a = 0.05).</p>
+<p>Sites farther from the river headwaters were associated with higher total annual nitrogen loads, suggesting that nitrogen accumulates as water flows downstream. We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson’s correlation test, r = correlation coefficient, p = 0.03, a = 0.05).</p>
 <p>Nitrogen load varied significantly across different source types; sources _ contributed more nitrogen than _ the others which suggests that _ is a key driver of elevated nitrogen levels in the system. We rejected the null hypothesis that there is no difference in average nitrogen load (kg year-1) between sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands) (one-way ANOVA, F=test statistic, df= degrees of freedom, p = 0.02, a = 0.05). A follow up post-hoc Tukey’s HSD test determined that _ source( mean difference = average kg/yr, p = p-value ) had significantly higher nitrogen loads than _ source(mean difference = average kg/yr, p= p-value ); no significant differences were found between the other sources.</p>
 </section>
 </section>
@@ -199,27 +197,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date), </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(date), </span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">month=</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span>  <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sst_clean <span class="ot">&lt;-</span> sst_clean <span class="sc">|&gt;</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span> </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_monthly_sst=</span> <span class="fu">round</span>(<span class="fu">mean</span>(temp), <span class="dv">1</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span>  <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_monthly_sst=</span> <span class="fu">round</span>(<span class="fu">mean</span>(temp), <span class="dv">1</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sst_clean<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sst_clean<span class="sc">$</span>year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>))</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>sst_clean<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sst_clean<span class="sc">$</span>year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>, <span class="st">"2021"</span>, <span class="st">"2022"</span>, <span class="st">"2023"</span>))</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(sst_clean) <span class="sc">|&gt;</span> </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(sst_clean) <span class="sc">|&gt;</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
 # Groups:   year [6]
   year  month mean_monthly_sst
   &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
-1 2018  Jul               18.2
-2 2019  Feb               14.1
-3 2020  Feb               14.7
-4 2021  Oct               16.6
-5 2022  Apr               13.3
+1 2018  Apr               12.8
+2 2019  Mar               13.6
+3 2020  Oct               19  
+4 2021  Dec               14.4
+5 2022  Dec               14.8
 # ℹ 1 more row</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -387,9 +383,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sim3 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(Model3)<span class="co">#dharma package residual graphs</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 1 row 2 columns</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sim3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>qu = 0.5, log(sigma) = -3.216542 : outer Newton did not converge fully.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -403,8 +396,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="g.-select-best-model" class="level3">
 <h3 class="anchored" data-anchor-id="g.-select-best-model">g. Select best model</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AICc</span>(Model0, Model1, Model2, Model3) <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AICc) <span class="co">#Akaike’s Information Criterion(AIC) test, arranges from low to high or best model to worst</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AICc</span>(Model0, Model1, Model2, Model3) <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AICc) <span class="co">#Akaike’s Information Criterion(AIC) test, arranges from low to high or best model to worst</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       df     AICc
 Model3  4 232.5485
@@ -418,34 +411,28 @@ Model2  3 242.5425</code></pre>
 <section id="h.-visualize-model-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="h.-visualize-model-predictions">h. Visualize model predictions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ggpredict not geomsmooth</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance"</span>, <span class="st">"season"</span>)) <span class="co">#creates prediction based on model 3 and using both the predictor variables</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#graphics.off() #fixes graph issue and removes the old plots that were causing the graphics problem</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(prediction, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted, <span class="at">group =</span> group, <span class="at">color =</span> group, <span class="at">fill =</span> group)) <span class="sc">+</span><span class="co">#takes prediction data, sets axis, and groups and colors by the groups made</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span><span class="co">#95% conf interval, removes color so i can manually add later</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span><span class="co">#adds line</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> nest_boxes_clean,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> edge_distance, <span class="at">y =</span> sp, <span class="at">color =</span> <span class="fu">factor</span>(season)),</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="fl">0.05</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span><span class="co"># adds jitter points from the underlying data, jittered by width and height because otherwise it was overlapping</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season"</span>,</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Distance to Forest Edge (meters)"</span>,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Probability of Swift Parrot Occupancy"</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Season"</span>,</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Season"</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span><span class="co">#adds title and axis labels</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())<span class="sc">+</span> <span class="co">#removes gridlines</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2016"</span> <span class="ot">=</span> <span class="st">"hotpink2"</span>, <span class="st">"2019"</span> <span class="ot">=</span> <span class="st">"purple"</span>)) <span class="sc">+</span> <span class="co"># dots and lines colors</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2016"</span> <span class="ot">=</span> <span class="st">"hotpink2"</span>, <span class="st">"2019"</span> <span class="ot">=</span> <span class="st">"purple"</span>)) <span class="co"># confidence interval colors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance"</span>, <span class="st">"season"</span>)) <span class="co">#creates prediction based on model 3 and using both the predictor variables</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#graphics.off() #fixes graph issue and removes the old plots that were causing the graphics problem</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(prediction, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted, <span class="at">group =</span> group, <span class="at">color =</span> group, <span class="at">fill =</span> group)) <span class="sc">+</span><span class="co">#takes prediction data, sets axis, and groups and colors by the groups made</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span><span class="co">#95% conf interval, removes color so i can manually add later</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span><span class="co">#adds line</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> nest_boxes_clean,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> edge_distance, <span class="at">y =</span> sp, <span class="at">color =</span> <span class="fu">factor</span>(season)),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="fl">0.05</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span><span class="co"># adds jitter points from the underlying data, jittered by width and height because otherwise it was overlapping</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Distance to Forest Edge (meters)"</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Probability of Swift Parrot Occupancy"</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Season"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Season"</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span><span class="co">#adds title and axis labels</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())<span class="sc">+</span> <span class="co">#removes gridlines</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2016"</span> <span class="ot">=</span> <span class="st">"hotpink2"</span>, <span class="st">"2019"</span> <span class="ot">=</span> <span class="st">"purple"</span>)) <span class="sc">+</span> <span class="co"># dots and lines colors</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2016"</span> <span class="ot">=</span> <span class="st">"hotpink2"</span>, <span class="st">"2019"</span> <span class="ot">=</span> <span class="st">"purple"</span>)) <span class="co"># confidence interval colors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -465,8 +452,8 @@ Model2  3 242.5425</code></pre>
 <section id="j.-calculate-model-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. Calculate model predictions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>predicted_table <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(predicted_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted_table <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(predicted_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Predicted values of sp
 
@@ -488,14 +475,14 @@ edge_distance | Predicted |      95% CI
 </section>
 <section id="k.-interpret-results" class="level3">
 <h3 class="anchored" data-anchor-id="k.-interpret-results">k. Interpret results</h3>
-<p>Predicted probabilities from the regression model (Figure 1) show that Swift Parrot nest box occupancy is highest near the forest edge (0 m) and declines sharply with increasing distance. At 0 m, the probability of occupancy was estimated at 0.43 in 2016 and 0.30 in 2019, while at 900 m, it dropped to 0.13 and nearly 0.01, respectively (Part j). This indicates a strong negative relationship between distance from forest edge and the likelihood of Swift Parrot occupancy, with slightly higher probabilities in the earlier season. Biologically, this trend is likely explained by Swift Parrots’ preference for nesting near forest edges where there is better access to food, cover, and suitable habitat structure, making distant nest boxes less favorable.</p>
+<p>Predicted probabilities from the regression model (Figure 1) show that Swift Parrot nest box occupancy is highest near the forest edge (0 m) and declines with increasing distance. At 0 m, the probability of occupancy was estimated at 0.43 in 2016 and 0.30 in 2019, while at 900 m, it dropped to 0.13 and 0.01, for 2016 and 2019 (table in part j). This indicates a negative relationship between distance from forest edge and the probability of Swift Parrot occupancy, with slightly higher probabilities in the earlier 2016 season. This trend could be explained by Swift Parrots’ preference for nesting near forest edges making distant nest boxes less favorable.</p>
 </section>
 </section>
 <section id="problem-4.-affective-and-exploratory-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="problem-4.-affective-and-exploratory-visualizations">Problem 4. Affective and Exploratory visualizations</h2>
 <section id="a.-comparing-visualizations" class="level3">
 <h3 class="anchored" data-anchor-id="a.-comparing-visualizations">a. Comparing visualizations</h3>
-<p>The initial visualizations from Homework 2 are pretty different from the affective visualizations from Homework 3 mainly because the initial visuals were exploratory and mainly focused on communicating my data in the simplest, most straightforward way forward. In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format. There are some similarities in colors and</p>
+<p>The initial visualizations from Homework 2 are pretty different from the affective visualizations from Homework 3 mainly because the initial visuals were exploratory and mainly focused on communicating my data in the simplest, most straightforward way forward. In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format, using a calendar/bookshelf layout instead of a traditional graph. Further, in my exploratory visuals, I hadn’t honed in on a reseach question so I graphed not just reading but also hours doing art and hours in the gym, but by the end of the quarter I decided to look at reading pace and stress levels. There are some similarities in colors(coral and green), simple square designs, and using stress levels as a predictor variable. In the first graphs, there isn’t a clear correlation between the variables but by later visuals, after narrowing my focus to reading pace and stress allowed clearer trends and there were some slight correlations between higher stress levels and lower average reading pace. I can’t compare means, medians or any other statistics between the two visuals since I didn’t have the same variables or run the same stats. In week 9, the only feedback that I got was that my visual would look nicer with a background and I don’t need to add a legend since the red-yellow-green colors were intuitive to mean low-medium-high. I incorporated both by adding a bookshelf background and replacing the legend with a title for the visual.</p>
 </section>
 <section id="b.-sharing-affective-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="b.-sharing-affective-visualization">b. Sharing affective visualization</h3>

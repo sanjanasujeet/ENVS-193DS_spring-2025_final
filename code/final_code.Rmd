@@ -1,5 +1,5 @@
 ---
-title: "ENVS 154 Final"
+title: "ENVS 193DS Final"
 author: "Sanjana Sujeet"
 date: "2025-06-08"
 format:
@@ -13,18 +13,6 @@ editor:
 
 **GitHub Repository:** <https://github.com/sanjanasujeet/ENVS-193DS_spring-2025_final>
 
-Citations for data: Kui, L.
-2024.
-Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver 3.
-Environmental Data Initiative.
-https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84.
-Accessed 2025-06-08.
-
-Stojanovic, Dejan et al. (2021).
-Do nest boxes breed the target species or its competitors?
-A case study of a critically endangered bird \[Dataset\].
-Dryad.
-https://doi.org/10.5061/dryad.83bk3j9sb
 
 ```{r setup, message=FALSE}
 library(rprojroot)
@@ -69,7 +57,7 @@ Another important thing to include would be summary statistics, like mean standa
 
 ### c. Suggestions for rewriting
 
-Sites farther from the river headwaters were associated with higher total annual nitrogen loads.
+Sites farther from the river headwaters were associated with higher total annual nitrogen loads, suggesting that nitrogen accumulates as water flows downstream.
 We rejected the null hypothesis that there is no correlation between distance from headwater (km) and annual total nitrogen load (kg year-1) (Pearson's correlation test, r = correlation coefficient, p = 0.03, a = 0.05).
 
 Nitrogen load varied significantly across different source types; sources \_ contributed more nitrogen than \_ the others which suggests that \_ is a key driver of elevated nitrogen levels in the system.
@@ -85,9 +73,7 @@ sst_clean <- clean_names(sst) |>
   mutate(date = ymd(date), 
          year = year(date), 
          month= month(date, label = TRUE)) |> 
-  filter(year %in%  c("2018", "2019", "2020", "2021", "2022", "2023"))
-
-sst_clean <- sst_clean |> 
+  filter(year %in%  c("2018", "2019", "2020", "2021", "2022", "2023")) |> 
   group_by(year, month) |> 
   summarise(mean_monthly_sst= round(mean(temp), 1))
 
@@ -100,6 +86,7 @@ slice_sample(sst_clean) |>
 str(sst_clean)
 
 ```
+
 
 ### b. Visualize
 
@@ -183,7 +170,7 @@ par(mfrow = c(1, 2)) # 1 row 2 columns
 plot(sim2)
 ```
 #### Model 3, both edge distance and season as predictor
-```{r}
+```{r, message = FALSE}
 sim3 <- simulateResiduals(Model3)#dharma package residual graphs
 par(mfrow = c(1, 2)) # 1 row 2 columns
 plot(sim3)
@@ -198,8 +185,7 @@ AICc(Model0, Model1, Model2, Model3) |>
 The best model as determined by  Akaike’s Information Criterion(AIC) is Model 3 which had both edge distance and season as predictors, this had the lowest AICc score(232.5) compared to the others(Model0-245.0, Model1-235.9, Model2- 242.5)
 
 ### h. Visualize model predictions
-```{r}
-#ggpredict not geomsmooth
+```{r, warning = FALSE}
 
 prediction <- ggpredict(Model3, terms = c("edge_distance", "season")) #creates prediction based on model 3 and using both the predictor variables
 
@@ -241,7 +227,7 @@ print(predicted_table)
 ```
 
 ### k. Interpret results
-Predicted probabilities from the regression model (Figure 1) show that Swift Parrot nest box occupancy is highest near the forest edge (0 m) and declines sharply with increasing distance. At 0 m, the probability of occupancy was estimated at 0.43 in 2016 and 0.30 in 2019, while at 900 m, it dropped to 0.13 and nearly 0.01, respectively (Part j). This indicates a strong negative relationship between distance from forest edge and the likelihood of Swift Parrot occupancy, with slightly higher probabilities in the earlier season. Biologically, this trend is likely explained by Swift Parrots' preference for nesting near forest edges where there is better access to food, cover, and suitable habitat structure, making distant nest boxes less favorable.
+Predicted probabilities from the regression model (Figure 1) show that Swift Parrot nest box occupancy is highest near the forest edge (0 m) and declines with increasing distance. At 0 m, the probability of occupancy was estimated at 0.43 in 2016 and 0.30 in 2019, while at 900 m, it dropped to 0.13 and 0.01, for 2016 and 2019 (table in part j). This indicates a negative relationship between distance from forest edge and the probability of Swift Parrot occupancy, with slightly higher probabilities in the earlier 2016 season. This trend could be explained by Swift Parrots' preference for nesting near forest edges making distant nest boxes less favorable.
 
 
 ## Problem 4. Affective and Exploratory visualizations
@@ -249,8 +235,9 @@ Predicted probabilities from the regression model (Figure 1) show that Swift Par
 ### a. Comparing visualizations
 
 The initial visualizations from Homework 2 are pretty different from the affective visualizations from Homework 3 mainly because the initial visuals were exploratory and mainly focused on communicating my data in the simplest, most straightforward way forward.
-In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format.
-There are some similarities in colors and
+In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format, using a calendar/bookshelf layout instead of a traditional graph. Further, in my exploratory visuals, I hadn't honed in on a reseach question so I graphed not just reading but also hours doing art and hours in the gym, but by the end of the quarter I decided to look at reading pace and stress levels. 
+There are some similarities in colors(coral and green), simple square designs, and using stress levels as a predictor variable. In the first graphs, there isn't a clear correlation between the variables but by later visuals, after narrowing my focus to reading pace and stress allowed clearer trends and there were some slight correlations between higher stress levels and lower average reading pace. I can't compare means, medians or any other statistics between the two visuals since I didn't have the same variables or run the same stats. 
+In week 9, the only feedback that I got was that my visual would look nicer with a background and I don't need to add a legend since the red-yellow-green colors were intuitive to mean low-medium-high. I incorporated both by adding a bookshelf background and replacing the legend with a title for the visual. 
 
 ### b. Sharing affective visualization
 
