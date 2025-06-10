@@ -102,13 +102,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#f.-check-diagnostics" id="toc-f.-check-diagnostics" class="nav-link" data-scroll-target="#f.-check-diagnostics">f.&nbsp;Check diagnostics</a></li>
   <li><a href="#g.-select-best-model" id="toc-g.-select-best-model" class="nav-link" data-scroll-target="#g.-select-best-model">g. Select best model</a></li>
   <li><a href="#h.-visualize-model-predictions" id="toc-h.-visualize-model-predictions" class="nav-link" data-scroll-target="#h.-visualize-model-predictions">h. Visualize model predictions</a></li>
-  <li><a href="#i.-write-caption-for-figure" id="toc-i.-write-caption-for-figure" class="nav-link" data-scroll-target="#i.-write-caption-for-figure">i. write caption for figure</a></li>
-  <li><a href="#j.-calculate-model-predictions" id="toc-j.-calculate-model-predictions" class="nav-link" data-scroll-target="#j.-calculate-model-predictions">j. calculate model predictions</a></li>
-  <li><a href="#k.-interpret-results" id="toc-k.-interpret-results" class="nav-link" data-scroll-target="#k.-interpret-results">k. interpret results</a></li>
+  <li><a href="#i.-write-caption-for-figure" id="toc-i.-write-caption-for-figure" class="nav-link" data-scroll-target="#i.-write-caption-for-figure">i. Write caption for figure</a></li>
+  <li><a href="#j.-calculate-model-predictions" id="toc-j.-calculate-model-predictions" class="nav-link" data-scroll-target="#j.-calculate-model-predictions">j. Calculate model predictions</a></li>
+  <li><a href="#k.-interpret-results" id="toc-k.-interpret-results" class="nav-link" data-scroll-target="#k.-interpret-results">k. Interpret results</a></li>
   </ul></li>
   <li><a href="#problem-4.-affective-and-exploratory-visualizations" id="toc-problem-4.-affective-and-exploratory-visualizations" class="nav-link" data-scroll-target="#problem-4.-affective-and-exploratory-visualizations">Problem 4. Affective and Exploratory visualizations</a>
   <ul class="collapse">
-  <li><a href="#a.-comparing-visualizations" id="toc-a.-comparing-visualizations" class="nav-link" data-scroll-target="#a.-comparing-visualizations">a. comparing visualizations</a></li>
+  <li><a href="#a.-comparing-visualizations" id="toc-a.-comparing-visualizations" class="nav-link" data-scroll-target="#a.-comparing-visualizations">a. Comparing visualizations</a></li>
   <li><a href="#b.-sharing-affective-visualization" id="toc-b.-sharing-affective-visualization" class="nav-link" data-scroll-target="#b.-sharing-affective-visualization">b. Sharing affective visualization</a></li>
   </ul></li>
   </ul>
@@ -215,11 +215,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # Groups:   year [6]
   year  month mean_monthly_sst
   &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
-1 2018  Feb               14.3
-2 2019  Aug               17  
-3 2020  Oct               19  
+1 2018  Jul               18.2
+2 2019  Feb               14.1
+3 2020  Feb               14.7
 4 2021  Oct               16.6
-5 2022  Jan               13.9
+5 2022  Apr               13.3
 # ℹ 1 more row</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -456,17 +456,17 @@ Model2  3 242.5425</code></pre>
 </div>
 </section>
 <section id="i.-write-caption-for-figure" class="level3">
-<h3 class="anchored" data-anchor-id="i.-write-caption-for-figure">i. write caption for figure</h3>
+<h3 class="anchored" data-anchor-id="i.-write-caption-for-figure">i. Write caption for figure</h3>
 <section id="figure-1." class="level5">
 <h5 class="anchored" data-anchor-id="figure-1.">Figure 1.</h5>
 <p><strong>Model Prediction of Swift Parrot Box Occupancy by Edge Distance and Season.</strong> <em>This model suggests that as distance to forest edge increases, probability of swift parrot occupancy decreases, also, in 2016 the probability was higher than in 2019.</em> This figure displays model-predicted probabilities of Swift Parrot nest box occupancy derived from a general logistic regression model that includes edge distance and season as predictor variables. Distance to the forest edge is shown on the x axis; season is shown in the legend with color differentiation, pink refering to the summer breeding season in 2016 and purple for the summer breeding season in 2019. Shaded ribbons represent 95% confidence intervals around the predicted probability lines and Jittered points show the raw binary data (1 = box occupied, 0 = unoccupied), with the same colors indicating season. The data came from: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
 </section>
 </section>
 <section id="j.-calculate-model-predictions" class="level3">
-<h3 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. calculate model predictions</h3>
+<h3 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. Calculate model predictions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>predicted_table <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(Model3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"edge_distance [0,900]"</span>, <span class="st">"season"</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(predicted_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Predicted values of sp
 
@@ -487,13 +487,14 @@ edge_distance | Predicted |      95% CI
 </div>
 </section>
 <section id="k.-interpret-results" class="level3">
-<h3 class="anchored" data-anchor-id="k.-interpret-results">k. interpret results</h3>
+<h3 class="anchored" data-anchor-id="k.-interpret-results">k. Interpret results</h3>
+<p>Predicted probabilities from the regression model (Figure 1) show that Swift Parrot nest box occupancy is highest near the forest edge (0 m) and declines sharply with increasing distance. At 0 m, the probability of occupancy was estimated at 0.43 in 2016 and 0.30 in 2019, while at 900 m, it dropped to 0.13 and nearly 0.01, respectively (Part j). This indicates a strong negative relationship between distance from forest edge and the likelihood of Swift Parrot occupancy, with slightly higher probabilities in the earlier season. Biologically, this trend is likely explained by Swift Parrots’ preference for nesting near forest edges where there is better access to food, cover, and suitable habitat structure, making distant nest boxes less favorable.</p>
 </section>
 </section>
 <section id="problem-4.-affective-and-exploratory-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="problem-4.-affective-and-exploratory-visualizations">Problem 4. Affective and Exploratory visualizations</h2>
 <section id="a.-comparing-visualizations" class="level3">
-<h3 class="anchored" data-anchor-id="a.-comparing-visualizations">a. comparing visualizations</h3>
+<h3 class="anchored" data-anchor-id="a.-comparing-visualizations">a. Comparing visualizations</h3>
 <p>The initial visualizations from Homework 2 are pretty different from the affective visualizations from Homework 3 mainly because the initial visuals were exploratory and mainly focused on communicating my data in the simplest, most straightforward way forward. In the affective visuals, my aim was still to communicate data but I was more focused towards a creative format. There are some similarities in colors and</p>
 </section>
 <section id="b.-sharing-affective-visualization" class="level3">
