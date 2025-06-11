@@ -9,9 +9,15 @@ You can find my rendered final at this [link](https://sanjanasujeet.github.io/EN
 
 # General Info
 
-Repository is for my ENVS 193DS Final taken in Spring Quarter 2025 at UCSB with Prof. An Bui. The final covers analyzing and suggesting statistical elements, visualizing sea surface temperature, analyzing and re-visualizing a research paper's regression model on bird nest boxes, and finalizing thoughts on affective visualization. The data and papers' citations are: Citations for data: Kui, L. 2024. Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver 3. Environmental Data Initiative. <https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84>. Accessed 2025-06-08.
+Repository is for my ENVS 193DS Final taken in Spring Quarter 2025 at UCSB with Prof. An Bui. The final covers analyzing and suggesting statistical elements, visualizing sea surface temperature, analyzing and re-visualizing a research paper's regression model on bird nest boxes, and finalizing thoughts on affective visualization. The data and papers' citations are:
 
-Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird Dataset. Dryad. [https://doi.org/10.5061/dryad.83bk3j9sb\\](https://doi.org/10.5061/dryad.83bk3j9sb\){.uri} Accessed 2025-06-08.
+Citations for SST data: Kui, L. 2024. Daily sea surface temperature in Santa Barbara channel between 1982 and 2023 ver 3. Environmental Data Initiative. <https://doi.org/10.6073/pasta/e930954949b2635928b8be6824630f84>. Accessed 2025-06-08.
+
+Citations for bird nest boxes data: Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird Dataset. Dryad. [https://doi.org/10.5061/dryad.83bk3j9sb\\](https://doi.org/10.5061/dryad.83bk3j9sb\){.uri} Accessed 2025-06-08.
+
+Citations for bird nest boxes paper: Stojanovic, D., Owens, G., Young, C.M., Alves, F. and Heinsohn, R. 2021. “Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird.” Restoration Ecology. DOI: 10.1111/rec.13319
+
+
 
 The packages used are: 
 ```
